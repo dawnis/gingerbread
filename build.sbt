@@ -12,7 +12,7 @@ lazy val server = (project in file("server"))
       specs2 % Test
     )
   )
-  .enablePlugins(PlayScala)
+  .enablePlugins(PlayScala, WebScalaJSBundlerPlugin)
   .dependsOn(sharedJvm)
 
 lazy val client = (project in file("client"))
@@ -23,26 +23,11 @@ lazy val client = (project in file("client"))
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
       "com.github.japgolly.scalajs-react" %%% "core" % "1.7.7"
     ),
-    jsDependencies ++= Seq(
-
-      "org.webjars.npm" % "react" % "16.13.1"
-        /        "umd/react.development.js"
-        minified "umd/react.production.min.js"
-        commonJSName "React",
-
-      "org.webjars.npm" % "react-dom" % "16.13.1"
-        /         "umd/react-dom.development.js"
-        minified  "umd/react-dom.production.min.js"
-        dependsOn "umd/react.development.js"
-        commonJSName "ReactDOM",
-
-      "org.webjars.npm" % "react-dom" % "16.13.1"
-        /         "umd/react-dom-server.browser.development.js"
-        minified  "umd/react-dom-server.browser.production.min.js"
-        dependsOn "umd/react-dom.development.js"
-        commonJSName "ReactDOMServer"),
+    npmDependencies in Compile ++= Seq(
+      "react" -> "16.13.1",
+      "react-dom" -> "16.13.1")
   )
-  .enablePlugins(ScalaJSPlugin, ScalaJSWeb)
+  .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .dependsOn(sharedJs)
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
