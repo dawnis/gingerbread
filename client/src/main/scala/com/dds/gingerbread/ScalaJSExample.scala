@@ -14,10 +14,13 @@ object ScalaJSExample {
     //dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
     val rootNode = dom.document.getElementById("root")
 
+    val buttonName = "Old Button name"
+    val switchNameHandler: Callback = ???
+
     <.div(
       <.h1("My React Learning App"),
         <.p("So Cool!"),
-      <.button("Switch Name"),
+      <.button(buttonName, ^.onClick.-->(switchNameHandler)),
       person("Trista", 39),
       person("Charlotte", 7)
     ).renderIntoDOM(rootNode)
