@@ -12,7 +12,7 @@ object ScalaJSExample {
   case class person(name: String)
   val Trista = person("Trista")
   val Charlotte = person("Charlotte")
-  val aPerson = ScalaComponent.builder[person].render_P(person => <.div(f"My name is $person")).build
+  val aPerson =  ScalaComponent.builder[person].render_P(person => <.div(f"My name is $person")).build
 
   def main(args: Array[String]): Unit = {
     //dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
