@@ -13,14 +13,13 @@ object ScalaJSExample {
   def main(args: Array[String]): Unit = {
     //dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
     val rootNode = dom.document.getElementById("root")
-    val trista = person.props(name="Trista", age="39")
-    val charlotte = person.props(name="Charlotte", age="7")
 
     <.div(
       <.h1("My React Learning App"),
         <.p("So Cool!"),
-      person.aPerson(trista),
-      person.aPerson(charlotte),
+      <.button("Switch Name"),
+      person("Trista", 39),
+      person("Charlotte", 7)
     ).renderIntoDOM(rootNode)
   }
 }
