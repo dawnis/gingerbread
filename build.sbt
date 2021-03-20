@@ -1,3 +1,4 @@
+
 lazy val server = (project in file("server"))
   .settings(commonSettings)
   .settings(
@@ -12,7 +13,7 @@ lazy val server = (project in file("server"))
       specs2 % Test
     )
   )
-  .enablePlugins(PlayScala)
+  .enablePlugins(PlayScala, WebScalaJSBundlerPlugin)
   .dependsOn(sharedJvm)
 
 lazy val client = (project in file("client"))
@@ -20,10 +21,14 @@ lazy val client = (project in file("client"))
   .settings(
     scalaJSUseMainModuleInitializer := true,
     libraryDependencies ++= Seq(
-      "org.scala-js" %%% "scalajs-dom" % "1.1.0"
-    )
+      "org.scala-js" %%% "scalajs-dom" % "1.1.0",
+      "com.github.japgolly.scalajs-react" %%% "core" % "1.7.7"
+    ),
+    npmDependencies in Compile ++= Seq(
+      "react" -> "16.13.1",
+      "react-dom" -> "16.13.1")
   )
-  .enablePlugins(ScalaJSPlugin, ScalaJSWeb)
+  .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .dependsOn(sharedJs)
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
