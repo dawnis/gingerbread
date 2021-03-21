@@ -7,7 +7,10 @@ import slinky.web.html._
   case class Props(name: String, age: Integer)
 
   def render() = {
-    p(s"Hello, my name is ${props.name} and I am ${props.age} years old")
+    div(className := "Person")(
+    p(s"Hello, my name is ${props.name} and I am ${props.age} years old"),
+      input(onChange := (event => {println("a change")}), value := props.name)
+    )
   }
 }
 
