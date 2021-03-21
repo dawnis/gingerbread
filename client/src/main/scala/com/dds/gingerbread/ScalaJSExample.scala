@@ -3,24 +3,57 @@ package com.dds.gingerbread
 import com.dds.gingerbread.shared.SharedMessages
 import org.scalajs.dom
 import org.scalajs.dom.document
-import Person.person
-import japgolly.scalajs.react._
-import japgolly.scalajs.react.vdom.html_<^._
+import mycomponents.{UserInput, UserOutput, aPerson}
+import slinky.core._
+import slinky.core.annotations.react
+import slinky.core.facade.ReactElement
+import slinky.web.ReactDOM
+import slinky.web.html._
 
+import scala.scalajs.js
+import scala.scalajs.js.annotation.{JSExportTopLevel, JSImport}
 
 object ScalaJSExample {
+
+  @react class App extends Component {
+
+    type Props = Unit
+    case class State(username: String)
+
+    override def initialState: State = State("myUsername")
+
+    def changeUsername(newName: String) = {
+      setState(state.copy(username = newName))
+    }
+
+    def render(): ReactElement = {
+      div(className := "App")(
+        h1("My React App"),
+        UserOutput(state.username),
+        UserInput(state.username, changeUsername),
+        h2("This is cool!"),
+        button(onClick := (_ => {
+          println("hello")
+        }),
+          style := js.Dynamic.literal(
+            backgroundColor = "white",
+            font = "inherit",
+            border = "1px solid blue",
+            cursor = "pointer"
+          ),
+          "Switch Name"),
+        aPerson("Trista", 39),
+        aPerson("Charlotte", 7),
+        aPerson("Roland", 4))
+    }
+
+  }
 
   def main(args: Array[String]): Unit = {
     //dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
     val rootNode = dom.document.getElementById("root")
-    val trista = person.props(name="Trista", age="39")
-    val charlotte = person.props(name="Charlotte", age="7")
 
-    <.div(
-      <.h1("My React Learning App"),
-        <.p("So Cool!"),
-      person.aPerson(trista),
-      person.aPerson(charlotte),
-    ).renderIntoDOM(rootNode)
+    ReactDOM.render(App(),  rootNode
+    )
   }
 }
