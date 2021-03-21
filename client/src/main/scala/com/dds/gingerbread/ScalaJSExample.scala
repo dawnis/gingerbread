@@ -18,6 +18,7 @@ object ScalaJSExample {
       div(className := "App")(
         h1("My React App"),
         h2("This is cool!"),
+        button(onClick := (_ => {println("hello")}), "Switch Name"),
         aPerson("Trista", 39),
         aPerson("Charlotte", 7),
         aPerson("Roland", 4)
