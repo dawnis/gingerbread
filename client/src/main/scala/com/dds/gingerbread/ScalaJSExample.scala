@@ -27,7 +27,7 @@ object ScalaJSExample {
     }
 
     def togglePersonsHandler() = {
-      setState(state.copy(showPersons = true))
+      setState(state.copy(showPersons = !state.showPersons))
     }
 
     def render(): ReactElement = {
