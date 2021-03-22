@@ -5,6 +5,11 @@
 # Home page
 GET        /                             com.dds.gingerbread.controllers.Application.index
 
+# Task Lists From Play Scala Tutorial (Lewis)
+GET        /taskList1                    com.dds.gingerbread.controllers.TaskList1.taskList
+GET        /login1                       com.dds.gingerbread.controllers.TaskList1.login
+
+
 # Prefix must match `play.assets.urlPrefix`
 GET        /assets/*file                 controllers.Assets.at(file)
 GET        /versionedAssets/*file        controllers.Assets.versioned(path="/public", file: Asset)
