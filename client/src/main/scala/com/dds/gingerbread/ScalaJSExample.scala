@@ -31,6 +31,14 @@ object ScalaJSExample {
     }
 
     def render(): ReactElement = {
+
+      val persons = if (state.showPersons) {
+        div(className := "peopleList")(
+          aPerson("Trista", 39),
+          aPerson("Charlotte", 7),
+          aPerson("Roland", 4))
+      } else null
+
       div(className := "App")(
         h1("My React App"),
         UserOutput(state.username),
@@ -40,12 +48,7 @@ object ScalaJSExample {
           togglePersonsHandler()
         }),
           "Show Persons"),
-        if (state.showPersons)
-        div(className := "peopleList")(
-        aPerson("Trista", 39),
-        aPerson("Charlotte", 7),
-        aPerson("Roland", 4)
-        ) else div()
+        persons
       )
     }
 
