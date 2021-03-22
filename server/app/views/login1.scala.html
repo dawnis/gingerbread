@@ -2,9 +2,21 @@
 
 @main("Login") {
     <h2>Login</h2>
-    <form method="get" action="validateLogin1">
+    <form method="get" action="validateGet1">
+        <p>This is a get login form</p>
         Username: <input type="text" name="username">
+        <br>
         Password: <input type="password" name="password">
+        <br>
+        <input type="submit">
+    </form>
+
+    <form method="post" action="validatePost1">
+        <p>This is a post login form</p>
+        Username: <input type="text" name="username">
+        <br>
+        Password: <input type="password" name="password">
+        <br>
         <input type="submit">
     </form>
 }

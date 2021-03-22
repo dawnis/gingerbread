@@ -7,7 +7,11 @@ GET        /                             com.dds.gingerbread.controllers.Applica
 
 # Task Lists From Play Scala Tutorial (Lewis)
 GET        /taskList1                    com.dds.gingerbread.controllers.TaskList1.taskList
-GET        /validateLogin1                       com.dds.gingerbread.controllers.TaskList1.validateLoginGet(username, password)
+GET        /validateGet1                       com.dds.gingerbread.controllers.TaskList1.validateLoginGet(username, password)
+
+#the +nocsrf tag turns of cross site security. usually don't want this
++nocsrf
+POST        /validatePost1                       com.dds.gingerbread.controllers.TaskList1.validateLoginPost
 GET        /login1                       com.dds.gingerbread.controllers.TaskList1.login
 
 
