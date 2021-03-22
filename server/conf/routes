@@ -7,6 +7,7 @@ GET        /                             com.dds.gingerbread.controllers.Applica
 
 # Task Lists From Play Scala Tutorial (Lewis)
 GET        /taskList1                    com.dds.gingerbread.controllers.TaskList1.taskList
+GET        /validateLogin1                       com.dds.gingerbread.controllers.TaskList1.validateLoginGet(username, password)
 GET        /login1                       com.dds.gingerbread.controllers.TaskList1.login
 
 
