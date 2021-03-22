@@ -18,12 +18,16 @@ object ScalaJSExample {
   @react class App extends Component {
 
     type Props = Unit
-    case class State(username: String)
+    case class State(username: String, showPersons: Boolean)
 
-    override def initialState: State = State("myUsername")
+    override def initialState: State = State("myUsername", false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
+    }
+
+    def togglePersonsHandler() = {
+      setState(state.copy(showPersons = true))
     }
 
     def render(): ReactElement = {
@@ -33,18 +37,16 @@ object ScalaJSExample {
         UserInput(state.username, changeUsername),
         h2("This is cool!"),
         button(onClick := (_ => {
-          println("hello")
+          togglePersonsHandler()
         }),
-          style := js.Dynamic.literal(
-            backgroundColor = "white",
-            font = "inherit",
-            border = "1px solid blue",
-            cursor = "pointer"
-          ),
-          "Switch Name"),
+          "Show Persons"),
+        if (state.showPersons)
+        div(className := "peopleList")(
         aPerson("Trista", 39),
         aPerson("Charlotte", 7),
-        aPerson("Roland", 4))
+        aPerson("Roland", 4)
+        ) else div()
+      )
     }
 
   }
