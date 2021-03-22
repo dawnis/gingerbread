@@ -1,5 +1,7 @@
 package com.dds.gingerbread.controllers
 
+import models.TaskListInMemoryModel
+
 import javax.inject._
 import play.api.mvc._
 
@@ -22,9 +24,12 @@ class TaskList1 @Inject()(cc: ControllerComponents) extends AbstractController(c
       val username = args("username").head
       val password = args("password").head
       //reverse routing
-      Redirect(routes.TaskList1.taskList())
-      //Ok(s"$username logged in with password $password")
-    }.getOrElse(Redirect((routes.TaskList1.login())))
+      if (TaskListInMemoryModel.validateUser(username, password)) {
+        //Ok(s"$username logged in with password $password")
+        Redirect(routes.TaskList1.taskList())
+      }
+      else Redirect(routes.TaskList1.login())
+    }.getOrElse(Redirect(routes.TaskList1.login()))
     //if the map ends up being none, then OrElse ges called
   }
 
