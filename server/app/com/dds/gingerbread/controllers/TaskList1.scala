@@ -34,7 +34,8 @@ class TaskList1 @Inject()(cc: ControllerComponents) extends AbstractController(c
   }
 
   def taskList = Action {
-    val tasks = List("wake", "breakfast", "plan", "work", "play", "repeat")
+    val username = "dchow"
+    val tasks = TaskListInMemoryModel.getTasks(username)
     Ok(views.html.taskList1(tasks))
   }
 
