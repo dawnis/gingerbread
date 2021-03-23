@@ -39,4 +39,6 @@ class TaskList1 @Inject()(cc: ControllerComponents) extends AbstractController(c
     Ok(views.html.taskList1(tasks))
   }
 
+  def createuser() = ???
+
 }
