@@ -10,6 +10,7 @@ import slinky.core.facade.ReactElement
 import slinky.web.ReactDOM
 import slinky.web.html._
 
+import scala.collection.mutable
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExportTopLevel, JSImport}
 
@@ -18,9 +19,29 @@ object ScalaJSExample {
   @react class App extends Component {
 
     type Props = Unit
-    case class State(username: String, showPersons: Boolean)
 
-    override def initialState: State = State("myUsername", false)
+    sealed trait Data
+
+    case class myperson(name: String, age: Int) extends Data
+
+    case class State(username: String,
+                     persons: List[Data],
+                     showPersons: Boolean)
+
+    val myhomies = List(
+      myperson("Trista", 39),
+      myperson("Roland", 5),
+      myperson("Charlotte", 7)
+    )
+
+    def to_aPerson(p: Data) = {
+      p match {
+        case myperson(name, age) => aPerson(name, age)
+        case _ => aPerson("None", 0)
+      }
+    }
+
+    override def initialState: State = State("myUsername", myhomies, false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
@@ -34,9 +55,8 @@ object ScalaJSExample {
 
       val persons = if (state.showPersons) {
         div(className := "peopleList")(
-          aPerson("Trista", 39),
-          aPerson("Charlotte", 7),
-          aPerson("Roland", 4))
+          state.persons.map(_ => to_aPerson(_)): _*
+        )
       } else null
 
       div(className := "App")(
