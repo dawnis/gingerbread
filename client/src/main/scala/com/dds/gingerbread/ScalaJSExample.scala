@@ -25,23 +25,9 @@ object ScalaJSExample {
     case class myperson(name: String, age: Int) extends Data
 
     case class State(username: String,
-                     persons: List[Data],
                      showPersons: Boolean)
 
-    val myhomies = List(
-      myperson("Trista", 39),
-      myperson("Roland", 5),
-      myperson("Charlotte", 7)
-    )
-
-    def to_aPerson(p: Data) = {
-      p match {
-        case myperson(name, age) => aPerson(name, age)
-        case _ => aPerson("None", 0)
-      }
-    }
-
-    override def initialState: State = State("myUsername", myhomies, false)
+    override def initialState: State = State("myUsername", false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
@@ -54,9 +40,9 @@ object ScalaJSExample {
     def render(): ReactElement = {
 
       val persons = if (state.showPersons) {
-        div(className := "peopleList")(
-          state.persons.map(_ => to_aPerson(_)): _*
-        )
+        List(aPerson("Trista", 39),
+          aPerson("Charlotte", 7),
+          aPerson("Roland", 5))
       } else null
 
       div(className := "App")(
@@ -78,7 +64,7 @@ object ScalaJSExample {
     //dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
     val rootNode = dom.document.getElementById("root")
 
-    ReactDOM.render(App(),  rootNode
+    ReactDOM.render(App(), rootNode
     )
   }
 }
