@@ -26,29 +26,32 @@ class TaskList1 @Inject()(cc: ControllerComponents) extends AbstractController(c
       //reverse routing
       if (TaskListInMemoryModel.validateUser(username, password)) {
         //Ok(s"$username logged in with password $password")
-        Redirect(routes.TaskList1.taskList())
+        //session is a map
+        Redirect(routes.TaskList1.taskList()).withSession("username" -> username)
       }
       else Redirect(routes.TaskList1.login())
     }.getOrElse(Redirect(routes.TaskList1.login()))
     //if the map ends up being none, then OrElse ges called
   }
 
-  def taskList = Action {
-    val username = "dchow"
-    val tasks = TaskListInMemoryModel.getTasks(username)
-    Ok(views.html.taskList1(tasks))
+  def taskList = Action { request =>
+    val usernameOption = request.session.get("username")
+    usernameOption.map { username =>
+      val tasks = TaskListInMemoryModel.getTasks(username)
+      Ok(views.html.taskList1(tasks))
+    }.getOrElse(Redirect((routes.TaskList1.login())))
   }
 
-  def createUser() = Action { request =>
-    //very similar to validateUser
-    val postVals: Option[Map[String, Seq[String]]] = request.body.asFormUrlEncoded
-    postVals.map { args =>
-      val username = args("username").head
-      val password = args("password").head
-      if (TaskListInMemoryModel.createUser(username, password)) {
-        Redirect(routes.TaskList1.taskList())
-      }
-      else Redirect(routes.TaskList1.login())
-    }.getOrElse(Redirect(routes.TaskList1.login()))
+    def createUser() = Action { request =>
+      //very similar to validateUser
+      val postVals: Option[Map[String, Seq[String]]] = request.body.asFormUrlEncoded
+      postVals.map { args =>
+        val username = args("username").head
+        val password = args("password").head
+        if (TaskListInMemoryModel.createUser(username, password)) {
+          Redirect(routes.TaskList1.taskList()).withSession("username" -> username)
+        }
+        else Redirect(routes.TaskList1.login())
+      }.getOrElse(Redirect(routes.TaskList1.login()))
+    }
   }
-}
