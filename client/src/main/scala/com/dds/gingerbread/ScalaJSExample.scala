@@ -40,7 +40,8 @@ object ScalaJSExample {
     def render(): ReactElement = {
 
       val persons = if (state.showPersons) {
-        List(aPerson("Trista", 39),
+        div(className := "homies")(
+          aPerson("Trista", 39),
           aPerson("Charlotte", 7),
           aPerson("Roland", 5))
       } else null
