@@ -1,5 +1,6 @@
 package com.dds.gingerbread
 
+import com.dds.gingerbread.State.PersonData
 import com.dds.gingerbread.shared.SharedMessages
 import org.scalajs.dom
 import org.scalajs.dom.document
@@ -20,26 +21,16 @@ object ScalaJSExample {
 
     type Props = Unit
 
-    sealed trait Data
-
-    case class myperson(name: String, age: Int) extends Data
 
     case class State(username: String,
-                     persons: List[Data],
+                     people: List[PersonData],
                      showPersons: Boolean)
 
     val myhomies = List(
-      myperson("Trista", 39),
-      myperson("Roland", 5),
-      myperson("Charlotte", 7)
+      PersonData("Trista", 39),
+      PersonData("Charlotte", 7),
+      PersonData("Roland", 5)
     )
-
-    def to_aPerson(p: Data) = {
-      p match {
-        case myperson(name, age) => aPerson(name, age)
-        case _ => aPerson("None", 0)
-      }
-    }
 
     override def initialState: State = State("myUsername", myhomies, false)
 
@@ -55,7 +46,7 @@ object ScalaJSExample {
 
       val persons = if (state.showPersons) {
         div(className := "peopleList")(
-          state.persons.map(_ => to_aPerson(_)): _*
+          state.people.map(_.toComponent()): _*
         )
       } else null
 
@@ -78,7 +69,7 @@ object ScalaJSExample {
     //dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
     val rootNode = dom.document.getElementById("root")
 
-    ReactDOM.render(App(),  rootNode
+    ReactDOM.render(App(), rootNode
     )
   }
 }
