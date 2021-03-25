@@ -1,6 +1,6 @@
 package com.dds.gingerbread
 
-import com.dds.gingerbread.State.PersonData
+import com.dds.gingerbread.mystate.PersonData
 import com.dds.gingerbread.shared.SharedMessages
 import org.scalajs.dom
 import org.scalajs.dom.document
@@ -23,16 +23,17 @@ object ScalaJSExample {
 
 
     case class State(username: String,
-                     people: List[PersonData],
                      showPersons: Boolean)
 
-    val myhomies = List(
+    val myhomies = Seq(
       PersonData("Trista", 39),
       PersonData("Charlotte", 7),
       PersonData("Roland", 5)
     )
 
-    override def initialState: State = State("myUsername", myhomies, false)
+    val ahomies = List(aPerson("Trista", 39), aPerson("Roland", 5), aPerson("Charlotte", 7))
+
+    override def initialState: State = State("myUsername",false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
@@ -46,7 +47,7 @@ object ScalaJSExample {
 
       val persons = if (state.showPersons) {
         div(className := "peopleList")(
-          state.people.map(_.toComponent()): _*
+          myhomies.map(_.toComponent()): _*
         )
       } else null
 

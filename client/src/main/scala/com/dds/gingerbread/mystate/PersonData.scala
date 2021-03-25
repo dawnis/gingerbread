@@ -1,4 +1,4 @@
-package com.dds.gingerbread.State
+package com.dds.gingerbread.mystate
 import com.dds.gingerbread.mycomponents.aPerson
 import slinky.core.KeyAndRefAddingStage
 
