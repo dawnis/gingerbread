@@ -1,9 +1,6 @@
 package com.dds.gingerbread
 
-import com.dds.gingerbread.mystate.PersonData
-import com.dds.gingerbread.shared.SharedMessages
 import org.scalajs.dom
-import org.scalajs.dom.document
 import mycomponents.{UserInput, UserOutput, aPerson}
 import slinky.core._
 import slinky.core.annotations.react
@@ -21,19 +18,12 @@ object ScalaJSExample {
 
     type Props = Unit
 
-
     case class State(username: String,
                      showPersons: Boolean)
 
-    val myhomies = Seq(
-      PersonData("Trista", 39),
-      PersonData("Charlotte", 7),
-      PersonData("Roland", 5)
-    )
+    val myhomies = Seq(("Trista", 39), ("Roland", 5), ("Charlotte", 7) )
 
-    val ahomies = List(aPerson("Trista", 39), aPerson("Roland", 5), aPerson("Charlotte", 7))
-
-    override def initialState: State = State("myUsername",false)
+    override def initialState: State = State("myUsername", false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
@@ -43,11 +33,15 @@ object ScalaJSExample {
       setState(state.copy(showPersons = !state.showPersons))
     }
 
+    def deletePersonsHandler(): Unit = {
+      println("let's delete")
+    }
+
     def render(): ReactElement = {
 
       val persons = if (state.showPersons) {
         div(className := "peopleList")(
-          myhomies.map(_.toComponent()): _*
+          myhomies.map(peep => aPerson(peep._1, peep._2, deletePersonsHandler)): _*
         )
       } else null
 
