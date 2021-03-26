@@ -18,12 +18,9 @@ object ScalaJSExample {
 
     type Props = Unit
 
-    case class State(username: String,
-                     showPersons: Boolean)
+    case class State(persons: Seq[Tuple2[String, Int]], username: String, showPersons: Boolean)
 
-    val myhomies = Seq(("Trista", 39), ("Roland", 5), ("Charlotte", 7) )
-
-    override def initialState: State = State("myUsername", false)
+    override def initialState: State = State(Seq(("Trista", 39), ("Roland", 5), ("Charlotte", 7)), "myUsername", false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
@@ -41,7 +38,7 @@ object ScalaJSExample {
 
       val persons = if (state.showPersons) {
         div(className := "peopleList")(
-          myhomies.map(peep => aPerson(peep._1, peep._2, deletePersonsHandler)): _*
+          state.persons.map(peep => aPerson(peep._1, peep._2, deletePersonsHandler)): _*
         )
       } else null
 
