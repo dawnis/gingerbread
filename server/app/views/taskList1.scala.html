@@ -1,4 +1,4 @@
-@(tasks: Seq[String])(implicit flash: Flash)
+@(tasks: Seq[String])(implicit request: RequestHeader, flash: Flash)
 
 @main("Task List") {
     <h2>Task List</h2>
@@ -9,6 +9,11 @@
         }
     </ul>
 
+    <form method="post" action="addTask">
+        @helper.CSRF.formField
+        <input type="text" name="newTask">
+        <input type="submit">
+    </form>
     <div>
         <a href="logout1">Logout</a>
     </div>
