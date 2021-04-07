@@ -40,6 +40,7 @@ object ScalaJSExample {
         div(className := "peopleList")(
           state.persons.map(peep => aPerson(peep._1, peep._2, deletePersonsHandler)): _*
         )
+
       } else null
 
       div(className := "App")(
