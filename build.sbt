@@ -10,7 +10,8 @@ lazy val server = (project in file("server"))
     libraryDependencies ++= Seq(
       "com.vmunier" %% "scalajs-scripts" % "1.1.4",
       guice,
-      specs2 % Test
+      specs2 % Test,
+      "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0"  % Test
     )
   )
   .enablePlugins(PlayScala, WebScalaJSBundlerPlugin)

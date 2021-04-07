@@ -1,28 +1,25 @@
-import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.mvc._
-import play.api.test.{PlaySpecification, WebDriverFactory, WithBrowser}
-import com.dds.gingerbread.controllers.{Application, TaskList1, routes}
-import com.dds.gingerbread.shared.SharedMessages
-import play.api.mvc.Results.Ok
+import org.scalatestplus.play.{HtmlUnitFactory, OneBrowserPerSuite, PlaySpec}
+import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 
+//port is provided on import
+class TaskList1Spec extends PlaySpec with GuiceOneServerPerSuite with OneBrowserPerSuite with HtmlUnitFactory {
+  "Task list 1" must {
+    "login and access functions" in {
+      go to s"http://localhost:$port/login1"
 
-class TaskList1Spec() extends PlaySpecification {
+      pageTitle mustBe "Login"
 
-  def applicationWithBrowser = {
-    new GuiceApplicationBuilder()
-      .appRoutes { app =>
-        val Action = app.injector.instanceOf[DefaultActionBuilder]
-        ({
-          case ("GET", "/") => routes.Application.index()
-          case ("GET", "/login1") =>  Ok(views.html.login1())
-        })
+      find(cssSelector("h2")).foreach(e => e.text mustBe "Login")
+      find(cssSelector("h2")).isEmpty mustBe false
+      click on "username-login"
+      textField("username").value = "dchow"
+      click on "password-login"
+      pwdField("password").value = "mypassword"
+
+      eventually {
+      submit()
       }
-      .build()
-  }
-
-  //Create a Selenium Web Browser instance for testing
-  "run in a browser" in new WithBrowser(webDriver = WebDriverFactory(HTMLUNIT), applicationWithBrowser) {
-    browser.goTo("/")
+    }
   }
 
 }

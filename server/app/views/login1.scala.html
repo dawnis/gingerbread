@@ -15,9 +15,9 @@
     <form method="post" action="validatePost1">
         @helper.CSRF.formField
         <p>This is a post login form</p>
-        Username: <input type="text" name="username">
+        Username: <input type="text" name="username", id="username-login">
         <br>
-        Password: <input type="password" name="password">
+        Password: <input type="password" name="password", id="password-login">
         <br>
         <input type="submit">
     </form>
