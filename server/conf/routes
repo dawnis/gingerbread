@@ -3,18 +3,22 @@
 # ~~~~
 
 # Home page
-GET        /                             com.dds.gingerbread.controllers.Application.index
+GET         /                             com.dds.gingerbread.controllers.Application.index
 
 # Task Lists From Play Scala Tutorial (Lewis)
-GET        /taskList1                    com.dds.gingerbread.controllers.TaskList1.taskList
-GET        /validateGet1                       com.dds.gingerbread.controllers.TaskList1.validateLoginGet(username, password)
+GET         /taskList1                    com.dds.gingerbread.controllers.TaskList1.taskList
+GET         /validateGet1                 com.dds.gingerbread.controllers.TaskList1.validateLoginGet(username, password)
 
 #the +nocsrf tag turns of cross site security. usually don't want this
-+nocsrf
-POST        /validatePost1                       com.dds.gingerbread.controllers.TaskList1.validateLoginPost
-GET        /login1                       com.dds.gingerbread.controllers.TaskList1.login
+POST        /addTask                      com.dds.gingerbread.controllers.TaskList1.addTask
+POST        /deleteTask                   com.dds.gingerbread.controllers.TaskList1.deleteTask
+POST        /validatePost1                com.dds.gingerbread.controllers.TaskList1.validateLoginPost
+POST        /validateForm1                com.dds.gingerbread.controllers.TaskList1.validateLoginForm
+POST        /createUser                   com.dds.gingerbread.controllers.TaskList1.createUser
+GET         /login1                       com.dds.gingerbread.controllers.TaskList1.login
+GET         /logout1                      com.dds.gingerbread.controllers.TaskList1.logout
 
 
 # Prefix must match `play.assets.urlPrefix`
-GET        /assets/*file                 controllers.Assets.at(file)
-GET        /versionedAssets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                 controllers.Assets.at(file)
+GET         /versionedAssets/*file        controllers.Assets.versioned(path="/public", file: Asset)

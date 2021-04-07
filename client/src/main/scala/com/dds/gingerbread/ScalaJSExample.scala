@@ -10,6 +10,7 @@ import slinky.core.facade.ReactElement
 import slinky.web.ReactDOM
 import slinky.web.html._
 
+import scala.collection.mutable
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{JSExportTopLevel, JSImport}
 
@@ -18,33 +19,44 @@ object ScalaJSExample {
   @react class App extends Component {
 
     type Props = Unit
-    case class State(username: String)
 
-    override def initialState: State = State("myUsername")
+    sealed trait Data
+
+    case class myperson(name: String, age: Int) extends Data
+
+    case class State(username: String,
+                     showPersons: Boolean)
+
+    override def initialState: State = State("myUsername", false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
     }
 
+    def togglePersonsHandler() = {
+      setState(state.copy(showPersons = !state.showPersons))
+    }
+
     def render(): ReactElement = {
+
+      val persons = if (state.showPersons) {
+        div(className := "homies")(
+          aPerson("Trista", 39),
+          aPerson("Charlotte", 7),
+          aPerson("Roland", 5))
+      } else null
+
       div(className := "App")(
         h1("My React App"),
         UserOutput(state.username),
         UserInput(state.username, changeUsername),
         h2("This is cool!"),
         button(onClick := (_ => {
-          println("hello")
+          togglePersonsHandler()
         }),
-          style := js.Dynamic.literal(
-            backgroundColor = "white",
-            font = "inherit",
-            border = "1px solid blue",
-            cursor = "pointer"
-          ),
-          "Switch Name"),
-        aPerson("Trista", 39),
-        aPerson("Charlotte", 7),
-        aPerson("Roland", 4))
+          "Show Persons"),
+        persons
+      )
     }
 
   }
@@ -53,7 +65,7 @@ object ScalaJSExample {
     //dom.document.getElementById("scalajsShoutOut").textContent = SharedMessages.itWorks
     val rootNode = dom.document.getElementById("root")
 
-    ReactDOM.render(App(),  rootNode
+    ReactDOM.render(App(), rootNode
     )
   }
 }
