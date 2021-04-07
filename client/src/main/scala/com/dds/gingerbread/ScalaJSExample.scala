@@ -1,8 +1,6 @@
 package com.dds.gingerbread
 
-import com.dds.gingerbread.shared.SharedMessages
 import org.scalajs.dom
-import org.scalajs.dom.document
 import mycomponents.{UserInput, UserOutput, aPerson}
 import slinky.core._
 import slinky.core.annotations.react
@@ -20,14 +18,9 @@ object ScalaJSExample {
 
     type Props = Unit
 
-    sealed trait Data
+    case class State(persons: Seq[Tuple2[String, Int]], username: String, showPersons: Boolean)
 
-    case class myperson(name: String, age: Int) extends Data
-
-    case class State(username: String,
-                     showPersons: Boolean)
-
-    override def initialState: State = State("myUsername", false)
+    override def initialState: State = State(Seq(("Trista", 39), ("Roland", 5), ("Charlotte", 7)), "myUsername", false)
 
     def changeUsername(newName: String) = {
       setState(state.copy(username = newName))
@@ -37,13 +30,17 @@ object ScalaJSExample {
       setState(state.copy(showPersons = !state.showPersons))
     }
 
+    def deletePersonsHandler(): Unit = {
+      println("let's delete")
+    }
+
     def render(): ReactElement = {
 
       val persons = if (state.showPersons) {
-        div(className := "homies")(
-          aPerson("Trista", 39),
-          aPerson("Charlotte", 7),
-          aPerson("Roland", 5))
+        div(className := "peopleList")(
+          state.persons.map(peep => aPerson(peep._1, peep._2, deletePersonsHandler)): _*
+        )
+
       } else null
 
       div(className := "App")(
